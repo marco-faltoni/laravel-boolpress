@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="d-flex align-items-center">
-                    <h1 class="mt-4 mb-4">Nuovo Post - Post</h1>
+                    <h1 class="mt-4 mb-4">Modifica Post</h1>
                 </div>
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -17,15 +17,16 @@
                         </ul>
                     </div>
                 @endif
-                <form action="{{ route('admin.posts.store') }}" method="POST">
+                <form action="{{ route('admin.posts.update', ['post' => $post->id]) }}" method="POST">
                     @csrf
+                    @method('PUT')
                     <div class="form-group">
                         <label for="titolo">Titolo Post</label>
-                        <input type="text" name='title' class="form-control" id="titolo" placeholder="Scrivi il Titolo del post" value="{{old('title')}}">
+                        <input type="text" name='title' class="form-control" id="titolo" placeholder="Scrivi il Titolo del post" value="{{old('title', $post->title)}}">
                     </div>
                     <div class="form-group">
                         <label for="testo">Testo Articolo</label>
-                        <textarea type="text" name='content' class="form-control" id="testo" placeholder="Scrivi del Testo" value="{{old('content')}}"></textarea>
+                        <textarea type="text" name="content" class="form-control" id="testo" placeholder="Scrivi qualcosa"> {{ old('content', $post->content) }}</textarea>
                     </div>
 
                     {{-- <div class="form-group">
@@ -36,7 +37,7 @@
                         @enderror
                     </div> --}}
 
-                    <button type="submit" class="btn btn-primary">Pubblica il Post</button>
+                    <button type="submit" class="btn btn-primary">Salva il Post</button>
                 </form>
             </div>
         </div>
