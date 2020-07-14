@@ -43,8 +43,22 @@ class PostController extends Controller
             'content' => 'required'
         ]);
         $dati = $request->all();
+        // genero slug a partire dal titolo
         $slug = Str::of($dati['title'])->slug('-')->__toString();
+        $slug_vergine = $slug;
+        // verifico che lo slug non sia già presente
+        $post_trov = Post::where('slug', $slug)->first();
+        $count = 0;
+        // favvio ciclo while per concatenare allo slug un numero incrementale
+        while($post_trov) {
+            $count++;
+            $slug = $slug_vergine . '-' . $count;
+            $post_trov = Post::where('slug', $slug)->first();
+        }
+
+        // qua lo slug è uunico per forza
         $dati['slug'] = $slug;
+        // salvo i nuovi dati del post
         $nuovo_post = new Post();
         $nuovo_post->fill($dati);
         $nuovo_post->save();
@@ -98,7 +112,18 @@ class PostController extends Controller
         ]);
 
         $dati = $request->all();
+        // genero slug a partire dal titolo
         $slug = Str::of($dati['title'])->slug('-')->__toString();
+        $slug_vergine = $slug;
+        // verifico che lo slug non sia già presente
+        $post_trov = Post::where('slug', $slug)->first();
+        $count = 0;
+        // favvio ciclo while per concatenare allo slug un numero incrementale
+        while($post_trov) {
+            $count++;
+            $slug = $slug_vergine . '-' . $count;
+            $post_trov = Post::where('slug', $slug)->first();
+        }
         $dati['slug'] = $slug;
 
         $post = Post::find($id);
