@@ -28,6 +28,16 @@
                         <textarea type="text" name='content' class="form-control" id="testo" placeholder="Scrivi del Testo" value="{{old('content')}}"></textarea>
                     </div>
 
+                    <div class="form-group">
+                        <label for="categoria">Categoria:</label>
+                        <select class="form-control" id="categoria" name="category_id">
+                            <option value="">Seleziona Categoria</option>
+                            @foreach ($categories as $category)
+                                <option value="{{$category->id}}">{{$category->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     {{-- <div class="form-group">
                         <label for="id">ID Matricola</label>
                         <input type="text" name='freshman_id' class="form-control" id="id" placeholder="Scrivi ID Matricola" value="{{old('freshman_id')}}">

@@ -14,6 +14,7 @@
                     <h5 class="card-title"> <strong>Titolo:</strong> {{ $post->title }}</h5>
                     <p class="card-text"> <strong> Contenuto del post:</strong><br>{{ $post->content }}</p>
                     <p class="card-text"><strong>Slug:</strong>{{ $post->slug }}</p>
+                    <p class="card-text"><strong>Categoria:</strong>{{ $post->category->name ?? '-'}}</p>
                     <p class="card-text"><small class="text-muted">Creato il: <strong>{{ $post->created_at }}</strong></small></p>
                     <p class="card-text"><small class="text-muted">Ultima modifica: <strong>{{ $post->updated_at }}</strong></small></p>
                     </div>
