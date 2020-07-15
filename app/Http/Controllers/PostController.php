@@ -25,7 +25,13 @@ class PostController extends Controller
     public function category($slug) {
         $category = Category::where('slug', $slug)->first();
         if($category) {
-            return 'categorie';
+            // recupero i post della categoria
+            $posts = $category->posts;
+            $data = [
+                'category'=> $category,
+                'posts' => $posts,
+            ];
+            return view('posts.category', $data);
         } else {
             abort('404');
         }

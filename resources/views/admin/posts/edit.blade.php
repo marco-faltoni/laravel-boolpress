@@ -42,6 +42,23 @@
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        @foreach ($tags as $tag)
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label" for="inlineCheckbox1">
+                                    <input
+                                    @if ($errors->any())
+                                        {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }}
+                                    @else
+                                        {{$post->tags->contains($tag) ? 'checked' : ''}}
+                                    @endif 
+                                        class="form-check-input" type="checkbox" name="tags[]" value="{{$tag->id}}">
+                                        {{$tag->name}}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+
                     {{-- <div class="form-group">
                         <label for="id">ID Matricola</label>
                         <input type="text" name='freshman_id' class="form-control" id="id" placeholder="Scrivi ID Matricola" value="{{old('freshman_id')}}">
