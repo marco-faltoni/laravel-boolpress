@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use App\Category;
 
 class PostController extends Controller
 {
@@ -18,6 +19,15 @@ class PostController extends Controller
             return view('posts.show', compact('post'));
         } else {
             return abort('404');
+        }
+    }
+
+    public function category($slug) {
+        $category = Category::where('slug', $slug)->first();
+        if($category) {
+            return 'categorie';
+        } else {
+            abort('404');
         }
     }
 }
