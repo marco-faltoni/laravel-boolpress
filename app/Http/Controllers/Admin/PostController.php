@@ -148,6 +148,12 @@ class PostController extends Controller
         $post = Post::find($id);
         $post->update($dati);
 
+        if(!empty($dati['tags'])) {
+            $post->tags()->sync($dati['tags']);
+        } else {
+            $post->tags()->sync([]);
+        }
+
         return redirect()->route('admin.posts.index');
     }
 
@@ -161,6 +167,7 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         if($post) {
+            $post->tags()->detach();
             $post->delete();
             return redirect()->route('admin.posts.index');
         } else {
