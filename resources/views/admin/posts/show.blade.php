@@ -12,6 +12,13 @@
                 <div class="card text-center">
                     <div class="card-body">
                     <h5 class="card-title"> <strong>Titolo:</strong> {{ $post->title }}</h5>
+                    @if ($post->cover_image)
+                    <div>
+                        <img class="img-fluid" src="{{asset('storage/' . $post->cover_image)}}" alt="">
+                    </div>
+                    @else
+                    
+                    @endif
                     <p class="card-text"> <strong> Contenuto del post:</strong><br>{{ $post->content }}</p>
                     <p class="card-text"><strong>Slug:</strong>{{ $post->slug }}</p>
                     <p class="card-text"><strong>Categoria:</strong>{{ $post->category->name ?? '-'}}</p>

@@ -8,6 +8,7 @@ use App\Post;
 use App\Category;
 use App\Tag;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -48,7 +49,8 @@ class PostController extends Controller
     {
         $request->validate([
             'title'=> 'required|max:255|unique:posts,title',
-            'content' => 'required'
+            'content' => 'required',
+            'image'=> 'image|max:2048'
         ]);
         $dati = $request->all();
         // genero slug a partire dal titolo
@@ -66,6 +68,15 @@ class PostController extends Controller
 
         // qua lo slug è uunico per forza
         $dati['slug'] = $slug;
+
+        // verifico se è caricata foto
+        if(!empty($dati['image'])) {
+            // carico imm
+            $img_path = Storage::put('uploads', $dati['image']);
+            $dati['cover_image'] = $img_path;
+        };
+        
+
         // salvo i nuovi dati del post
         $nuovo_post = new Post();
         $nuovo_post->fill($dati);
@@ -127,7 +138,8 @@ class PostController extends Controller
     {
         $request->validate([
             'title'=> 'required|max:255|unique:posts,title,'.$id,
-            'content' => 'required'
+            'content' => 'required',
+            'image'=> 'image|max:2048'
         ]);
 
         $dati = $request->all();
@@ -144,6 +156,13 @@ class PostController extends Controller
             $post_trov = Post::where('slug', $slug)->first();
         }
         $dati['slug'] = $slug;
+
+        // verifico se è caricata foto
+        if(!empty($dati['image'])) {
+            // carico imm
+            $img_path = Storage::put('uploads', $dati['image']);
+            $dati['cover_image'] = $img_path;
+        };
 
         $post = Post::find($id);
         $post->update($dati);
@@ -167,7 +186,8 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         if($post) {
-            $post->tags()->detach();
+            $post->tags()->sync([]);
+            // $post->tags()->detach();
             $post->delete();
             return redirect()->route('admin.posts.index');
         } else {
